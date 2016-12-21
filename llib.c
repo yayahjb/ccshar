@@ -120,21 +120,22 @@ qsort(Table, Number, Width, Compare)
 	(void) write(2, s, (TYPE)strlen(s));\
 	(void) write(2, errbuf, 2);}
 
+#ifndef HAVE_STRING
 extern int strcmp();
+#endif
 
 int	opterr = 1;
 int	optind = 1;
 int	optopt;
 char	*optarg;
 
+#ifndef HAVE_UNISTD
 /*
 **  Return options and their values from the command line.
 **  This comes from the AT&T public-domain getopt published in mod.sources.
 */
 int
-getopt(argc, argv, opts)
-int	argc;
-char	**argv, *opts;
+getopt(int argc, char **argv, char *opts)
 {
 	static int sp = 1;
 	REGISTER int c;
@@ -176,5 +177,5 @@ char	**argv, *opts;
 	}
 	return(c);
 }
-
+#endif
 #endif	/* NEED_GETOPT */

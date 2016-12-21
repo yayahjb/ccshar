@@ -14,7 +14,9 @@ getmem(i, j)
     unsigned int	 i;
     unsigned int	 j;
 {
+#ifndef HAVE_STDLIB
     extern char		*calloc();
+#endif
     align_t		 p;
 
     /* Lint fluff:  "possible pointer alignment problem." */

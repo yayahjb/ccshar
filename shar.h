@@ -8,6 +8,20 @@
 
 #include "config.h"
 
+#ifdef HAVE_UNISTD
+#include <unistd.h>
+#endif
+#ifdef HAVE_STRING
+#include <string.h>
+#endif
+#ifdef HAVE_STDLIB
+#include <stdlib.h>
+#endif
+#ifdef HAVE_ERRNO
+#include <errno.h>
+#endif
+
+
 #ifdef	ANSI_HDRS
 #include <stdlib.h>
 #include <stddef.h>
@@ -43,7 +57,6 @@
 #ifdef	IN_DIRENT
 #include <dirent.h>
 #endif	/* IN_DIRENT */
-
 
 /*
 **  Handy shorthands.
@@ -97,7 +110,9 @@
 /*
 **  Linked in later.
 */
+#ifndef HAVE_ERRNO
 extern int	 errno;
+#endif
 extern int	 optind;
 extern char	*optarg;
 
@@ -112,7 +127,7 @@ extern char	*gets();
 extern char	*mktemp();
 extern char	*strcat();
 extern char	*strcpy();
-extern char	*strncpy();
+extern char	*strncpy(char * dst, char * src, size_t n);
 extern char   	*getenv();
 #ifdef	PTR_SPRINTF
 extern char	*sprintf();

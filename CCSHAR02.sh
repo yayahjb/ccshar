@@ -5,22 +5,22 @@
 # unshar, or by typing "sh <file", e.g..  If this archive is complete, you
 # will see the following message at the end:
 #		"End of archive 2 (of 3)."
-# Contents:  config.x386 dir.amiga dir.msdos findsrc.c makekit.man
-#   shar.c unshar.c
-# Wrapped by yaya@server.chm.bnl.gov on Sun Sep  3 19:20:13 1995
+# Contents:  config.h dir.amiga dir.msdos findsrc.c makekit.man shar.c
+#   unshar.c
+# Wrapped by yaya@blondie on Wed Dec 21 00:58:24 2016
 PATH=/bin:/usr/bin:/usr/ucb ; export PATH
-if test -f 'config.x386' -a "${1}" != "-c" ; then 
-  echo shar: Will not clobber existing file \"'config.x386'\"
+if test -f 'config.h' -a "${1}" != "-c" ; then 
+  echo shar: Will not clobber existing file \"'config.h'\"
 else
-echo shar: Extracting \"'config.x386'\" \(4277 characters\)
-sed "s/^X//" >'config.x386' <<'END_OF_FILE'
+echo shar: Extracting \"'config.h'\" \(4517 characters\)
+sed "s/^X//" >'config.h' <<'END_OF_FILE'
 X/*
 X**  Configuration file for shar and friends.
 X**
-X**  This config file is for Xenix on a 386.
-X**  In the Makefile, set DIRLIB=-lx, and tweak the MANDIR and 1 variables.
+X**  This is known to work on Ultrix1.2 and Sun3.4 machines; it may work
+X**  on other BSD variants, too.
 X**
-X**  $Header: config.x386,v 2.1 88/06/06 22:05:52 rsalz Exp $
+X**  $Header: /Users/yaya/ccshar/RCS/config.h,v 1.2 2005/11/26 03:02:13 yaya Exp yaya $
 X*/
 X
 X
@@ -37,23 +37,23 @@ X**  A dense section of one-line compilation controls.  If you're confused,
 X**  your best bet is to search through the source to see where and how
 X**  each one of these is used.
 X*/
-X#define IDX		strchr		/* Maybe strchr?		*/
-X#define RDX		strrchr		/* Maybe strrchr?		*/
-X#define NEED_MKDIR			/* Don't have mkdir(2)?		*/
+X#define IDX		index		/* Maybe strchr?		*/
+X#define RDX		rindex		/* Maybe strrchr?		*/
+X/*efine NEED_MKDIR			/* Don't have mkdir(2)?		*/
 X/*efine NEED_QSORT			/* Don't have qsort(3)?		*/
-X#define NEED_RENAME			/* Don't have rename(2 or 3)?	*/
-X/*efine NEED_GETOPT			/* Need local getopt object?	*/
+X/*efine NEED_RENAME			/* Don't have rename(2 or 3)?	*/
+X#define NEED_GETOPT			/* Need local getopt object?	*/
 X#define CAN_POPEN			/* Can invoke file(1) command?	*/
 X/*efine USE_MY_SHELL			/* Don't popen("/bin/sh")?	*/
 X/*efine BACKUP_PREFIX	"B-"		/* Instead of ".BAK" suffix?	*/
-Xtypedef int		 sigret_t;	/* What a signal handler returns */
+Xtypedef void		 sigret_t;	/* What a signal handler returns */
 Xtypedef int		*align_t;	/* Worst-case alignment, for lint */
 X/* typedef long		time_t		/* Needed for non-BSD sites?	*/
 X/* typedef long		off_t		/* Needed for non-BSD sites?	*/
 X/*efine void		int		/* If you don't have void	*/
 X/*efine SYS_WAIT			/* Have <sys/wait.h> and vfork?	*/
 X/*efine USE_SYSTEM			/* Use system(3), not exec(2)?	*/
-X#define USE_SYSERRLIST			/* Have sys_errlist[], sys_nerr? */
+X/*efine USE_SYSERRLIST			/* Have sys_errlist[], sys_nerr? */
 X#define USE_GETPWUID			/* Use getpwuid(3)?		*/
 X#define DEF_SAVEIT	1		/* Save headers by default?	*/
 X/*efine FMT02d				/* Need "%02.2d", not "%2.2d"?	*/
@@ -61,17 +61,19 @@ X#define MAX_LEVELS	6		/* Levels for findsrc to walk	*/
 X#define THE_TTY		"/dev/tty"	/* Maybe "con:" for MS-DOS?	*/
 X#define RCSID				/* Compile in the RCS strings?	*/
 X#define USERNAME	"USER"		/* Your name, if not in environ	*/
-X#define PTR_SPRINTF			/* Need extern char *sprinf()?	*/
+X/*efine PTR_SPRINTF			/* Need extern char *sprinf()?	*/
 X/*efine ANSI_HDRS			/* Use <stdlib.h>, etc.?	*/
 X#define REGISTER	register	/* Do you trust your compiler?	*/
-X
-X
+X#define HAVE_UNISTD	1		/* Do you have unistd.h         */
+X#define HAVE_STRING	1		/* Do you have string.h         */ 
+X#define HAVE_STDLIB	1		/* Do you have stdlib.h         */
+X#define HAVE_ERRNO	1		/* Do you have errno.h          */
 X/*
 X**  There are several ways to get current machine name.  Enable just one
 X**  of one of the following lines.
 X*/
-X/*efine GETHOSTNAME			/* Use gethostname(2) call	*/
-X#define UNAME				/* Use uname(2) call		*/
+X#define GETHOSTNAME			/* Use gethostname(2) call	*/
+X/*efine UNAME				/* Use uname(2) call		*/
 X/*efine UUNAME				/* Invoke "uuname -l"		*/
 X/*efine	WHOAMI				/* Try /etc/whoami & <whoami.h>	*/
 X/*efine HOST		"SITE"		/* If all else fails		*/
@@ -81,8 +83,8 @@ X/*
 X**  There are several different ways to get the current working directory.
 X**  Enable just one of the following lines.
 X*/
-X/*efine GETWD				/* Use getwd(3) routine		*/
-X#define GETCWD				/* Use getcwd(3) routine	*/
+X#define GETWD				/* Use getwd(3) routine		*/
+X/*efine GETCWD				/* Use getcwd(3) routine	*/
 X/*efine PWDPOPEN			/* Invoke "pwd"			*/
 X/*efine PWDGETENV	"PWD"		/* Get $PWD from environment	*/
 X
@@ -112,11 +114,11 @@ X*/
 X
 X/* Now then, where did I put that header file?   Pick one. */
 X/*efine IN_SYS_DIR			/* <sys/dir.h>			*/
-X#define IN_SYS_NDIR			/* <sys/ndir.h>			*/
+X/*efine IN_SYS_NDIR			/* <sys/ndir.h>			*/
 X/*efine IN_DIR				/* <dir.h>			*/
 X/*efine IN_DIRECT			/* <direct.h>			*/
 X/*efine IN_NDIR				/* "ndir.h"			*/
-X/*efine IN_DIRENT			/* <dirent.h>			*/
+X#define IN_DIRENT			/* <dirent.h>			*/
 X
 X/*  What readdir() returns.  Must be a #define because of #include order. */
 X#ifdef	IN_DIRENT
@@ -129,10 +131,10 @@ X/*
 X**  Congratulations, you're done!
 X*/
 END_OF_FILE
-if test 4277 -ne `wc -c <'config.x386'`; then
-    echo shar: \"'config.x386'\" unpacked with wrong size!
+if test 4517 -ne `wc -c <'config.h'`; then
+    echo shar: \"'config.h'\" unpacked with wrong size!
 fi
-# end of 'config.x386'
+# end of 'config.h'
 fi
 if test -f 'dir.amiga' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'dir.amiga'\"
@@ -665,7 +667,7 @@ fi
 if test -f 'findsrc.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'findsrc.c'\"
 else
-echo shar: Extracting \"'findsrc.c'\" \(7247 characters\)
+echo shar: Extracting \"'findsrc.c'\" \(7225 characters\)
 sed "s/^X//" >'findsrc.c' <<'END_OF_FILE'
 X/*
 X**  FINDSRC
@@ -674,7 +676,7 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: findsrc.c,v 2.2 88/06/06 22:04:03 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/findsrc.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -685,8 +687,8 @@ Xint	 DoDOTFILES;			/* Do .newsrc and friends?	*/
 Xint	 DoRCS;				/* Do RCS and SCCS files?	*/
 Xint	 Default;			/* Default answer from user	*/
 Xint	 Verbose;			/* List rejected files, too?	*/
-Xchar	*Dname;				/* Filename of directory list	*/
-Xchar	*Fname;				/* Filename of file list	*/
+Xstatic char	Dname[22];				/* Filename of directory list	*/
+Xstatic char	Fname[22];				/* Filename of file list	*/
 XFILE	*Dfile;				/* List of directories found	*/
 XFILE	*Ffile;				/* List of files found		*/
 XFILE	*DEVTTY;			/* The tty, if in filter mode	*/
@@ -696,8 +698,7 @@ X/*
 X**  Signal handler.  Clean up and die.
 X*/
 Xstatic sigret_t
-XCatch(s)
-X    int		 s;
+XCatch(int s)
 X{
 X    int		 e;
 X
@@ -715,8 +716,7 @@ X/*
 X**  Given a filename, apply heuristics to see if we want it.
 X*/
 Xstatic int
-XWanted(Name)
-X    REGISTER char	*Name;
+XWanted(char *Name)
 X{
 X    REGISTER FILE	*F;
 X    REGISTER char	*s;
@@ -831,9 +831,7 @@ X**  Quick and dirty recursive routine to walk down directory tree.
 X**  Could be made more general, but why bother?
 X*/
 Xstatic void
-XProcess(p, level)
-X    REGISTER char	 *p;
-X    REGISTER int	  level;
+XProcess(char *p, int level)
 X{
 X    REGISTER char	 *q;
 X    DIR			 *Dp;
@@ -876,9 +874,7 @@ X    }
 X}
 X
 X
-Xmain(ac, av)
-X    REGISTER int	 ac;
-X    REGISTER char	*av[];
+Xmain(int ac, char **av)
 X{
 X    REGISTER char	*p;
 X    REGISTER int	 i;
@@ -931,8 +927,10 @@ X    av += optind;
 X
 X    /* Set signal catcher, open temp files. */
 X    SetSigs(TRUE, Catch);
-X    Dname = mktemp("/tmp/findDXXXXXX");
-X    Fname = mktemp("/tmp/findFXXXXXX");
+X	strcpy(Dname,"/tmp/findDXXXXXX");
+X	strcpy(Fname,"/tmp/findFXXXXXX");
+X    mkstemp(Dname);
+X    mkstemp(Fname);
 X    Dfile = fopen(Dname, "w");
 X    Ffile = fopen(Fname, "w");
 X
@@ -942,7 +940,7 @@ X	for (DEVTTY = stdin; *av; av++)
 X	    Process(*av, 0);
 X    else
 X	while (fgets(buff, sizeof buff, stdin)) {
-X	    if (p = IDX(buff, '\n'))
+X	    if ((p = IDX(buff, '\n')))
 X		*p = '\0';
 X	    else
 X		Fprintf(stderr, "Warning, line too long:\n\t%s\n", buff);
@@ -969,7 +967,7 @@ X    (void)unlink(Fname);
 X    exit(0);
 X}
 END_OF_FILE
-if test 7247 -ne `wc -c <'findsrc.c'`; then
+if test 7225 -ne `wc -c <'findsrc.c'`; then
     echo shar: \"'findsrc.c'\" unpacked with wrong size!
 fi
 # end of 'findsrc.c'
@@ -1126,7 +1124,7 @@ fi
 if test -f 'shar.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'shar.c'\"
 else
-echo shar: Extracting \"'shar.c'\" \(7700 characters\)
+echo shar: Extracting \"'shar.c'\" \(7729 characters\)
 sed "s/^X//" >'shar.c' <<'END_OF_FILE'
 X/*
 X**  SHAR
@@ -1135,7 +1133,7 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: shar.c,v 2.1 88/06/03 11:51:12 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/shar.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X/*
@@ -1447,7 +1445,7 @@ X
 X    exit(0);
 X}
 END_OF_FILE
-if test 7700 -ne `wc -c <'shar.c'`; then
+if test 7729 -ne `wc -c <'shar.c'`; then
     echo shar: \"'shar.c'\" unpacked with wrong size!
 fi
 # end of 'shar.c'
@@ -1455,7 +1453,7 @@ fi
 if test -f 'unshar.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'unshar.c'\"
 else
-echo shar: Extracting \"'unshar.c'\" \(8527 characters\)
+echo shar: Extracting \"'unshar.c'\" \(8556 characters\)
 sed "s/^X//" >'unshar.c' <<'END_OF_FILE'
 X/*
 X**  UNSHAR
@@ -1465,7 +1463,7 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: unshar.c,v 2.2 88/06/03 16:08:14 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/unshar.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1829,7 +1827,7 @@ X    /* That's all she wrote. */
 X    exit(0);
 X}
 END_OF_FILE
-if test 8527 -ne `wc -c <'unshar.c'`; then
+if test 8556 -ne `wc -c <'unshar.c'`; then
     echo shar: \"'unshar.c'\" unpacked with wrong size!
 fi
 # end of 'unshar.c'

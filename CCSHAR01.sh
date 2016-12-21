@@ -5,10 +5,10 @@
 # unshar, or by typing "sh <file", e.g..  If this archive is complete, you
 # will see the following message at the end:
 #		"End of archive 1 (of 3)."
-# Contents:  MANIFEST Makefile README config.h config.sVr3 cshar.man
+# Contents:  MANIFEST Makefile README config.sVr3 config.x386 cshar.man
 #   findsrc.man glue.c lcwd.c lexec.c lfiles.c lhost.c llib.c lmem.c
 #   luser.c patchlevel.h shar.h shar.man shell.c shell.man unshar.man
-# Wrapped by yaya@server.chm.bnl.gov on Sun Sep  3 19:20:13 1995
+# Wrapped by yaya@blondie on Wed Dec 21 00:58:24 2016
 PATH=/bin:/usr/bin:/usr/ucb ; export PATH
 if test -f 'MANIFEST' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'MANIFEST'\"
@@ -20,9 +20,9 @@ X-----------------------------------------------------------
 X MANIFEST                   1	This shipping list
 X Makefile                   1	Control file for Unix make program
 X README                     1	Acknowledgements, installation notes
-X config.h                   1	Default configuration file
+X config.h                   2	Default configuration file
 X config.sVr3                1	Configuration for SystemV Releases 3.1 and 3.2
-X config.x386                2	configuration for Xenix on a 386
+X config.x386                1	configuration for Xenix on a 386
 X cshar.c                    3	Create csh script to create files
 X cshar.man                  1	Manual page for cshar
 X dir.amiga                  2	A partial Amiga readdir package
@@ -57,7 +57,7 @@ fi
 if test -f 'Makefile' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'Makefile'\"
 else
-echo shar: Extracting \"'Makefile'\" \(3604 characters\)
+echo shar: Extracting \"'Makefile'\" \(3611 characters\)
 sed "s/^X//" >'Makefile' <<'END_OF_FILE'
 X##
 X##  SOURCE-SHIPPING TOOLS MAKEFILE
@@ -66,13 +66,13 @@ X##
 X
 X## Grrrr...
 XSHELL	= /bin/sh
-XCC = cc
+XCC = gcc
 X
 X##  Edit appropriately, such as -g if you don't trust me...
 X#  Flags to build for AIX with cshar version making minimal use of "X"
-XCFLAGS	= -O -D_NO_PROTO -DJUST_TEXT
+X#CFLAGS	= -g -O -D_NO_PROTO -DJUST_TEXT
 X#  Flags to build for non-AIX systems
-X#CFLAGS  = -O -DJUST_TEXT
+XCFLAGS  = -g -O -DJUST_TEXT
 X
 X##  Where the readdir() and friends are, if not in your C library.
 X#DIRLIB	= -lndir
@@ -206,7 +206,7 @@ X	@rm -f $@
 X	lint -CX $(LIB_SRC)
 X	mv llib-lX.ln lib.ln
 END_OF_FILE
-if test 3604 -ne `wc -c <'Makefile'`; then
+if test 3611 -ne `wc -c <'Makefile'`; then
     echo shar: \"'Makefile'\" unpacked with wrong size!
 fi
 # end of 'Makefile'
@@ -311,131 +311,6 @@ if test 4480 -ne `wc -c <'README'`; then
     echo shar: \"'README'\" unpacked with wrong size!
 fi
 # end of 'README'
-fi
-if test -f 'config.h' -a "${1}" != "-c" ; then 
-  echo shar: Will not clobber existing file \"'config.h'\"
-else
-echo shar: Extracting \"'config.h'\" \(4258 characters\)
-sed "s/^X//" >'config.h' <<'END_OF_FILE'
-X/*
-X**  Configuration file for shar and friends.
-X**
-X**  This is known to work on Ultrix1.2 and Sun3.4 machines; it may work
-X**  on other BSD variants, too.
-X**
-X**  $Header: config.h,v 2.2 88/06/06 22:05:27 rsalz Exp $
-X*/
-X
-X
-X/*
-X**  Higher-level controls for which operating system we're running on.
-X*/
-X#define UNIX				/* Works			*/
-X/*efine MSDOS				/* Should work			*/
-X/*efine VMS				/* Doesn't work			*/
-X
-X
-X/*
-X**  A dense section of one-line compilation controls.  If you're confused,
-X**  your best bet is to search through the source to see where and how
-X**  each one of these is used.
-X*/
-X#define IDX		index		/* Maybe strchr?		*/
-X#define RDX		rindex		/* Maybe strrchr?		*/
-X/*efine NEED_MKDIR			/* Don't have mkdir(2)?		*/
-X/*efine NEED_QSORT			/* Don't have qsort(3)?		*/
-X/*efine NEED_RENAME			/* Don't have rename(2 or 3)?	*/
-X#define NEED_GETOPT			/* Need local getopt object?	*/
-X#define CAN_POPEN			/* Can invoke file(1) command?	*/
-X/*efine USE_MY_SHELL			/* Don't popen("/bin/sh")?	*/
-X/*efine BACKUP_PREFIX	"B-"		/* Instead of ".BAK" suffix?	*/
-Xtypedef void		 sigret_t;	/* What a signal handler returns */
-Xtypedef int		*align_t;	/* Worst-case alignment, for lint */
-X/* typedef long		time_t		/* Needed for non-BSD sites?	*/
-X/* typedef long		off_t		/* Needed for non-BSD sites?	*/
-X/*efine void		int		/* If you don't have void	*/
-X/*efine SYS_WAIT			/* Have <sys/wait.h> and vfork?	*/
-X/*efine USE_SYSTEM			/* Use system(3), not exec(2)?	*/
-X#define USE_SYSERRLIST			/* Have sys_errlist[], sys_nerr? */
-X#define USE_GETPWUID			/* Use getpwuid(3)?		*/
-X#define DEF_SAVEIT	1		/* Save headers by default?	*/
-X/*efine FMT02d				/* Need "%02.2d", not "%2.2d"?	*/
-X#define MAX_LEVELS	6		/* Levels for findsrc to walk	*/
-X#define THE_TTY		"/dev/tty"	/* Maybe "con:" for MS-DOS?	*/
-X#define RCSID				/* Compile in the RCS strings?	*/
-X#define USERNAME	"USER"		/* Your name, if not in environ	*/
-X/*efine PTR_SPRINTF			/* Need extern char *sprinf()?	*/
-X/*efine ANSI_HDRS			/* Use <stdlib.h>, etc.?	*/
-X#define REGISTER	register	/* Do you trust your compiler?	*/
-X
-X
-X/*
-X**  There are several ways to get current machine name.  Enable just one
-X**  of one of the following lines.
-X*/
-X#define GETHOSTNAME			/* Use gethostname(2) call	*/
-X/*efine UNAME				/* Use uname(2) call		*/
-X/*efine UUNAME				/* Invoke "uuname -l"		*/
-X/*efine	WHOAMI				/* Try /etc/whoami & <whoami.h>	*/
-X/*efine HOST		"SITE"		/* If all else fails		*/
-X
-X
-X/*
-X**  There are several different ways to get the current working directory.
-X**  Enable just one of the following lines.
-X*/
-X#define GETWD				/* Use getwd(3) routine		*/
-X/*efine GETCWD				/* Use getcwd(3) routine	*/
-X/*efine PWDPOPEN			/* Invoke "pwd"			*/
-X/*efine PWDGETENV	"PWD"		/* Get $PWD from environment	*/
-X
-X
-X/*
-X**  If you're a notes site, you might have to tweaks these two #define's.
-X**  If you don't care, then set them equal to something that doesn't
-X**  start with the comment-begin sequence and they'll be effectively no-ops
-X**  at the cost of an extra strcmp.  I've also heard of broken MS-DOS
-X**  compilers that don't ignore slash-star inside comments!  Anyhow, for
-X**  more details see unshar.c
-X*/
-X/*efine NOTES1		"/* Written "	/* This is what notes 1.7 uses	*/
-X/*efine NOTES2		"/* ---"	/* This is what notes 1.7 uses	*/
-X#define NOTES1		"$$"		/* This is a don't care		*/
-X#define NOTES2		"$$"		/* This is a don't care		*/
-X
-X
-X/*
-X**  The findsrc program uses the readdir() routines to read directories.
-X**  If your system doesn't have this interface, there are public domain
-X**  implementations available for Unix from the comp.sources.unix archives,
-X**  GNU has a VMS one inside EMACS, and this package comes with kits for
-X**  MS-DOS and the Amiga.  Help save the world and use or write a readdir()
-X**  package for your system!
-X*/
-X
-X/* Now then, where did I put that header file?   Pick one. */
-X/*efine IN_SYS_DIR			/* <sys/dir.h>			*/
-X/*efine IN_SYS_NDIR			/* <sys/ndir.h>			*/
-X/*efine IN_DIR				/* <dir.h>			*/
-X/*efine IN_DIRECT			/* <direct.h>			*/
-X/*efine IN_NDIR				/* "ndir.h"			*/
-X#define IN_DIRENT			/* <dirent.h>			*/
-X
-X/*  What readdir() returns.  Must be a #define because of #include order. */
-X#ifdef	IN_DIRENT
-X#define DIRENTRY	struct dirent
-X#else
-X#define DIRENTRY	struct direct
-X#endif	/* IN_DIRENT */
-X
-X/*
-X**  Congratulations, you're done!
-X*/
-END_OF_FILE
-if test 4258 -ne `wc -c <'config.h'`; then
-    echo shar: \"'config.h'\" unpacked with wrong size!
-fi
-# end of 'config.h'
 fi
 if test -f 'config.sVr3' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'config.sVr3'\"
@@ -560,6 +435,131 @@ if test 4201 -ne `wc -c <'config.sVr3'`; then
     echo shar: \"'config.sVr3'\" unpacked with wrong size!
 fi
 # end of 'config.sVr3'
+fi
+if test -f 'config.x386' -a "${1}" != "-c" ; then 
+  echo shar: Will not clobber existing file \"'config.x386'\"
+else
+echo shar: Extracting \"'config.x386'\" \(4277 characters\)
+sed "s/^X//" >'config.x386' <<'END_OF_FILE'
+X/*
+X**  Configuration file for shar and friends.
+X**
+X**  This config file is for Xenix on a 386.
+X**  In the Makefile, set DIRLIB=-lx, and tweak the MANDIR and 1 variables.
+X**
+X**  $Header: config.x386,v 2.1 88/06/06 22:05:52 rsalz Exp $
+X*/
+X
+X
+X/*
+X**  Higher-level controls for which operating system we're running on.
+X*/
+X#define UNIX				/* Works			*/
+X/*efine MSDOS				/* Should work			*/
+X/*efine VMS				/* Doesn't work			*/
+X
+X
+X/*
+X**  A dense section of one-line compilation controls.  If you're confused,
+X**  your best bet is to search through the source to see where and how
+X**  each one of these is used.
+X*/
+X#define IDX		strchr		/* Maybe strchr?		*/
+X#define RDX		strrchr		/* Maybe strrchr?		*/
+X#define NEED_MKDIR			/* Don't have mkdir(2)?		*/
+X/*efine NEED_QSORT			/* Don't have qsort(3)?		*/
+X#define NEED_RENAME			/* Don't have rename(2 or 3)?	*/
+X/*efine NEED_GETOPT			/* Need local getopt object?	*/
+X#define CAN_POPEN			/* Can invoke file(1) command?	*/
+X/*efine USE_MY_SHELL			/* Don't popen("/bin/sh")?	*/
+X/*efine BACKUP_PREFIX	"B-"		/* Instead of ".BAK" suffix?	*/
+Xtypedef int		 sigret_t;	/* What a signal handler returns */
+Xtypedef int		*align_t;	/* Worst-case alignment, for lint */
+X/* typedef long		time_t		/* Needed for non-BSD sites?	*/
+X/* typedef long		off_t		/* Needed for non-BSD sites?	*/
+X/*efine void		int		/* If you don't have void	*/
+X/*efine SYS_WAIT			/* Have <sys/wait.h> and vfork?	*/
+X/*efine USE_SYSTEM			/* Use system(3), not exec(2)?	*/
+X#define USE_SYSERRLIST			/* Have sys_errlist[], sys_nerr? */
+X#define USE_GETPWUID			/* Use getpwuid(3)?		*/
+X#define DEF_SAVEIT	1		/* Save headers by default?	*/
+X/*efine FMT02d				/* Need "%02.2d", not "%2.2d"?	*/
+X#define MAX_LEVELS	6		/* Levels for findsrc to walk	*/
+X#define THE_TTY		"/dev/tty"	/* Maybe "con:" for MS-DOS?	*/
+X#define RCSID				/* Compile in the RCS strings?	*/
+X#define USERNAME	"USER"		/* Your name, if not in environ	*/
+X#define PTR_SPRINTF			/* Need extern char *sprinf()?	*/
+X/*efine ANSI_HDRS			/* Use <stdlib.h>, etc.?	*/
+X#define REGISTER	register	/* Do you trust your compiler?	*/
+X
+X
+X/*
+X**  There are several ways to get current machine name.  Enable just one
+X**  of one of the following lines.
+X*/
+X/*efine GETHOSTNAME			/* Use gethostname(2) call	*/
+X#define UNAME				/* Use uname(2) call		*/
+X/*efine UUNAME				/* Invoke "uuname -l"		*/
+X/*efine	WHOAMI				/* Try /etc/whoami & <whoami.h>	*/
+X/*efine HOST		"SITE"		/* If all else fails		*/
+X
+X
+X/*
+X**  There are several different ways to get the current working directory.
+X**  Enable just one of the following lines.
+X*/
+X/*efine GETWD				/* Use getwd(3) routine		*/
+X#define GETCWD				/* Use getcwd(3) routine	*/
+X/*efine PWDPOPEN			/* Invoke "pwd"			*/
+X/*efine PWDGETENV	"PWD"		/* Get $PWD from environment	*/
+X
+X
+X/*
+X**  If you're a notes site, you might have to tweaks these two #define's.
+X**  If you don't care, then set them equal to something that doesn't
+X**  start with the comment-begin sequence and they'll be effectively no-ops
+X**  at the cost of an extra strcmp.  I've also heard of broken MS-DOS
+X**  compilers that don't ignore slash-star inside comments!  Anyhow, for
+X**  more details see unshar.c
+X*/
+X/*efine NOTES1		"/* Written "	/* This is what notes 1.7 uses	*/
+X/*efine NOTES2		"/* ---"	/* This is what notes 1.7 uses	*/
+X#define NOTES1		"$$"		/* This is a don't care		*/
+X#define NOTES2		"$$"		/* This is a don't care		*/
+X
+X
+X/*
+X**  The findsrc program uses the readdir() routines to read directories.
+X**  If your system doesn't have this interface, there are public domain
+X**  implementations available for Unix from the comp.sources.unix archives,
+X**  GNU has a VMS one inside EMACS, and this package comes with kits for
+X**  MS-DOS and the Amiga.  Help save the world and use or write a readdir()
+X**  package for your system!
+X*/
+X
+X/* Now then, where did I put that header file?   Pick one. */
+X/*efine IN_SYS_DIR			/* <sys/dir.h>			*/
+X#define IN_SYS_NDIR			/* <sys/ndir.h>			*/
+X/*efine IN_DIR				/* <dir.h>			*/
+X/*efine IN_DIRECT			/* <direct.h>			*/
+X/*efine IN_NDIR				/* "ndir.h"			*/
+X/*efine IN_DIRENT			/* <dirent.h>			*/
+X
+X/*  What readdir() returns.  Must be a #define because of #include order. */
+X#ifdef	IN_DIRENT
+X#define DIRENTRY	struct dirent
+X#else
+X#define DIRENTRY	struct direct
+X#endif	/* IN_DIRENT */
+X
+X/*
+X**  Congratulations, you're done!
+X*/
+END_OF_FILE
+if test 4277 -ne `wc -c <'config.x386'`; then
+    echo shar: \"'config.x386'\" unpacked with wrong size!
+fi
+# end of 'config.x386'
 fi
 if test -f 'cshar.man' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'cshar.man'\"
@@ -775,7 +775,7 @@ fi
 if test -f 'glue.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'glue.c'\"
 else
-echo shar: Extracting \"'glue.c'\" \(1239 characters\)
+echo shar: Extracting \"'glue.c'\" \(1291 characters\)
 sed "s/^X//" >'glue.c' <<'END_OF_FILE'
 X/*
 X**  Subroutine to call the shell archive parser.  This is "glue"
@@ -784,7 +784,7 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: glue.c,v 2.0 88/05/27 13:26:14 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/glue.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -814,10 +814,11 @@ X    char		*vec[MAX_WORDS];
 X
 X    Interactive = Name == NULL;
 X#ifdef	MSDOS
-X    File = "shell.XXX";
+X    strcpy(File,"shell.XXX");
 X    onexit(BSclean);
 X#else
-X    File = mktemp("/tmp/shellXXXXXX");
+X    strcpy(File,"/tmp/shellXXXXXX");
+X    mkstemp(File);
 X#endif	/* MSDOS */
 X
 X    F = fopen(File, "w");
@@ -842,7 +843,7 @@ X    BSclean();
 X}
 X#endif	/* USE_MY_SHELL */
 END_OF_FILE
-if test 1239 -ne `wc -c <'glue.c'`; then
+if test 1291 -ne `wc -c <'glue.c'`; then
     echo shar: \"'glue.c'\" unpacked with wrong size!
 fi
 # end of 'glue.c'
@@ -850,7 +851,7 @@ fi
 if test -f 'lcwd.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'lcwd.c'\"
 else
-echo shar: Extracting \"'lcwd.c'\" \(1110 characters\)
+echo shar: Extracting \"'lcwd.c'\" \(1139 characters\)
 sed "s/^X//" >'lcwd.c' <<'END_OF_FILE'
 X/*
 X**  Return current working directory.  Something for everyone.
@@ -859,7 +860,7 @@ X/* LINTLIBRARY */
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: lcwd.c,v 2.0 88/05/27 13:26:24 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/lcwd.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -927,7 +928,7 @@ X    return(NULL);
 X}
 X#endif	/* PWDPOPEN */
 END_OF_FILE
-if test 1110 -ne `wc -c <'lcwd.c'`; then
+if test 1139 -ne `wc -c <'lcwd.c'`; then
     echo shar: \"'lcwd.c'\" unpacked with wrong size!
 fi
 # end of 'lcwd.c'
@@ -935,7 +936,7 @@ fi
 if test -f 'lexec.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'lexec.c'\"
 else
-echo shar: Extracting \"'lexec.c'\" \(2062 characters\)
+echo shar: Extracting \"'lexec.c'\" \(2091 characters\)
 sed "s/^X//" >'lexec.c' <<'END_OF_FILE'
 X/*
 X**  Process stuff, like fork exec and wait.  Also signals.
@@ -945,7 +946,7 @@ X#include "shar.h"
 X#include <signal.h>
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: lexec.c,v 2.0 88/05/27 13:26:35 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/lexec.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1059,7 +1060,7 @@ X    return(system(p));
 X}
 X#endif	/* USE_SYSTEM */
 END_OF_FILE
-if test 2062 -ne `wc -c <'lexec.c'`; then
+if test 2091 -ne `wc -c <'lexec.c'`; then
     echo shar: \"'lexec.c'\" unpacked with wrong size!
 fi
 # end of 'lexec.c'
@@ -1067,7 +1068,7 @@ fi
 if test -f 'lfiles.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'lfiles.c'\"
 else
-echo shar: Extracting \"'lfiles.c'\" \(1007 characters\)
+echo shar: Extracting \"'lfiles.c'\" \(1036 characters\)
 sed "s/^X//" >'lfiles.c' <<'END_OF_FILE'
 X/*
 X**  File related routines.
@@ -1077,7 +1078,7 @@ X#include "shar.h"
 X#include <sys/stat.h>
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: lfiles.c,v 2.0 88/05/27 13:26:47 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/lfiles.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1135,7 +1136,7 @@ X{
 X    return(GetStat(p) && (Sb.st_mode & EXE_MASK) ? TRUE : FALSE);
 X}
 END_OF_FILE
-if test 1007 -ne `wc -c <'lfiles.c'`; then
+if test 1036 -ne `wc -c <'lfiles.c'`; then
     echo shar: \"'lfiles.c'\" unpacked with wrong size!
 fi
 # end of 'lfiles.c'
@@ -1143,7 +1144,7 @@ fi
 if test -f 'lhost.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'lhost.c'\"
 else
-echo shar: Extracting \"'lhost.c'\" \(1714 characters\)
+echo shar: Extracting \"'lhost.c'\" \(1743 characters\)
 sed "s/^X//" >'lhost.c' <<'END_OF_FILE'
 X/*
 X**  Return name of this host.  Something for everyone.
@@ -1152,7 +1153,7 @@ X/* LINTLIBRARY */
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: lhost.c,v 2.0 88/05/27 13:27:01 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/lhost.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1243,7 +1244,7 @@ X    return("SITE");
 X}
 X#endif /* WHOAMI */
 END_OF_FILE
-if test 1714 -ne `wc -c <'lhost.c'`; then
+if test 1743 -ne `wc -c <'lhost.c'`; then
     echo shar: \"'lhost.c'\" unpacked with wrong size!
 fi
 # end of 'lhost.c'
@@ -1251,7 +1252,7 @@ fi
 if test -f 'llib.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'llib.c'\"
 else
-echo shar: Extracting \"'llib.c'\" \(3656 characters\)
+echo shar: Extracting \"'llib.c'\" \(3725 characters\)
 sed "s/^X//" >'llib.c' <<'END_OF_FILE'
 X/*
 X**  Some systems will need these routines because they're missing from
@@ -1262,7 +1263,7 @@ X/* LINTLIBRARY */
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: llib.c,v 2.1 88/06/06 22:05:14 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/llib.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1375,21 +1376,22 @@ X	(void) write(2, argv[0], (TYPE)strlen(argv[0]));\
 X	(void) write(2, s, (TYPE)strlen(s));\
 X	(void) write(2, errbuf, 2);}
 X
+X#ifndef HAVE_STRING
 Xextern int strcmp();
+X#endif
 X
 Xint	opterr = 1;
 Xint	optind = 1;
 Xint	optopt;
 Xchar	*optarg;
 X
+X#ifndef HAVE_UNISTD
 X/*
 X**  Return options and their values from the command line.
 X**  This comes from the AT&T public-domain getopt published in mod.sources.
 X*/
 Xint
-Xgetopt(argc, argv, opts)
-Xint	argc;
-Xchar	**argv, *opts;
+Xgetopt(int argc, char **argv, char *opts)
 X{
 X	static int sp = 1;
 X	REGISTER int c;
@@ -1431,10 +1433,10 @@ X		optarg = NULL;
 X	}
 X	return(c);
 X}
-X
+X#endif
 X#endif	/* NEED_GETOPT */
 END_OF_FILE
-if test 3656 -ne `wc -c <'llib.c'`; then
+if test 3725 -ne `wc -c <'llib.c'`; then
     echo shar: \"'llib.c'\" unpacked with wrong size!
 fi
 # end of 'llib.c'
@@ -1442,7 +1444,7 @@ fi
 if test -f 'lmem.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'lmem.c'\"
 else
-echo shar: Extracting \"'lmem.c'\" \(579 characters\)
+echo shar: Extracting \"'lmem.c'\" \(635 characters\)
 sed "s/^X//" >'lmem.c' <<'END_OF_FILE'
 X/*
 X**  Get some memory or die trying.
@@ -1451,7 +1453,7 @@ X/* LINTLIBRARY */
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: lmem.c,v 2.0 88/05/27 13:27:16 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/lmem.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1460,7 +1462,9 @@ Xgetmem(i, j)
 X    unsigned int	 i;
 X    unsigned int	 j;
 X{
+X#ifndef HAVE_STDLIB
 X    extern char		*calloc();
+X#endif
 X    align_t		 p;
 X
 X    /* Lint fluff:  "possible pointer alignment problem." */
@@ -1472,7 +1476,7 @@ X    }
 X    return(p);
 X}
 END_OF_FILE
-if test 579 -ne `wc -c <'lmem.c'`; then
+if test 635 -ne `wc -c <'lmem.c'`; then
     echo shar: \"'lmem.c'\" unpacked with wrong size!
 fi
 # end of 'lmem.c'
@@ -1480,7 +1484,7 @@ fi
 if test -f 'luser.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'luser.c'\"
 else
-echo shar: Extracting \"'luser.c'\" \(727 characters\)
+echo shar: Extracting \"'luser.c'\" \(756 characters\)
 sed "s/^X//" >'luser.c' <<'END_OF_FILE'
 X/*
 X**  Get user name.  Something for everyone.
@@ -1492,7 +1496,7 @@ X#include <pwd.h>
 X#endif	/* USE_GETPWUID */
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: luser.c,v 2.0 88/05/27 13:27:23 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/luser.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1521,7 +1525,7 @@ X#endif	/* USE_GETPWUID */
 X    return(USERNAME);
 X}
 END_OF_FILE
-if test 727 -ne `wc -c <'luser.c'`; then
+if test 756 -ne `wc -c <'luser.c'`; then
     echo shar: \"'luser.c'\" unpacked with wrong size!
 fi
 # end of 'luser.c'
@@ -1529,14 +1533,17 @@ fi
 if test -f 'patchlevel.h' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'patchlevel.h'\"
 else
-echo shar: Extracting \"'patchlevel.h'\" \(1274 characters\)
+echo shar: Extracting \"'patchlevel.h'\" \(1371 characters\)
 sed "s/^X//" >'patchlevel.h' <<'END_OF_FILE'
 X/*
 X**  This file records official patches.  RCS records the edit log.
 X**
-X**  $Header: patchlevel.h,v 2.3 88/06/06 22:04:33 rsalz Exp $
+X**  $Header: /Users/yaya/ccshar/RCS/patchlevel.h,v 1.1 2005/11/26 03:02:13 yaya Exp yaya $
 X**
-X**  $Log:	patchlevel.h,v $
+X**  $Log: patchlevel.h,v $
+X**  Revision 1.1  2005/11/26 03:02:13  yaya
+X**  Initial revision
+X**
 X**  Revision 2.3  88/06/06  22:04:33  rsalz
 X**  patch03:  Fix typo in makekit manpage, and getopt call in the program.
 X**  patch03:  Add NEED_RENAME and BACKUP_PREFIX to config.*; edit llib.c
@@ -1561,7 +1568,7 @@ X**  First comp.sources.unix release
 X*/
 X#define PATCHLEVEL 3
 END_OF_FILE
-if test 1274 -ne `wc -c <'patchlevel.h'`; then
+if test 1371 -ne `wc -c <'patchlevel.h'`; then
     echo shar: \"'patchlevel.h'\" unpacked with wrong size!
 fi
 # end of 'patchlevel.h'
@@ -1569,17 +1576,31 @@ fi
 if test -f 'shar.h' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'shar.h'\"
 else
-echo shar: Extracting \"'shar.h'\" \(3117 characters\)
+echo shar: Extracting \"'shar.h'\" \(3387 characters\)
 sed "s/^X//" >'shar.h' <<'END_OF_FILE'
 X/*
 X**  Header file for shar and friends.
 X**  If you have to edit this file, then I messed something up, please
 X**  let me know what.
 X**
-X**  $Header: shar.h,v 2.1 88/06/03 11:39:28 rsalz Exp $
+X**  $Header: /Users/yaya/ccshar/RCS/shar.h,v 1.1 2005/11/26 03:02:13 yaya Exp yaya $
 X*/
 X
 X#include "config.h"
+X
+X#ifdef HAVE_UNISTD
+X#include <unistd.h>
+X#endif
+X#ifdef HAVE_STRING
+X#include <string.h>
+X#endif
+X#ifdef HAVE_STDLIB
+X#include <stdlib.h>
+X#endif
+X#ifdef HAVE_ERRNO
+X#include <errno.h>
+X#endif
+X
 X
 X#ifdef	ANSI_HDRS
 X#include <stdlib.h>
@@ -1616,7 +1637,6 @@ X#endif	/* IN_NDIR */
 X#ifdef	IN_DIRENT
 X#include <dirent.h>
 X#endif	/* IN_DIRENT */
-X
 X
 X/*
 X**  Handy shorthands.
@@ -1670,7 +1690,9 @@ X
 X/*
 X**  Linked in later.
 X*/
+X#ifndef HAVE_ERRNO
 Xextern int	 errno;
+X#endif
 Xextern int	 optind;
 Xextern char	*optarg;
 X
@@ -1685,7 +1707,7 @@ Xextern char	*gets();
 Xextern char	*mktemp();
 Xextern char	*strcat();
 Xextern char	*strcpy();
-Xextern char	*strncpy();
+Xextern char	*strncpy(char * dst, char * src, size_t n);
 Xextern char   	*getenv();
 X#ifdef	PTR_SPRINTF
 Xextern char	*sprintf();
@@ -1708,7 +1730,7 @@ Xextern int	 Interactive;		/* isatty(fileno(stdin))?	*/
 Xextern void	 SetVar();		/* Shell variable assignment	*/
 Xextern void	 SynErr();		/* Fatal syntax error		*/
 END_OF_FILE
-if test 3117 -ne `wc -c <'shar.h'`; then
+if test 3387 -ne `wc -c <'shar.h'`; then
     echo shar: \"'shar.h'\" unpacked with wrong size!
 fi
 # end of 'shar.h'
@@ -1834,7 +1856,7 @@ fi
 if test -f 'shell.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'shell.c'\"
 else
-echo shar: Extracting \"'shell.c'\" \(808 characters\)
+echo shar: Extracting \"'shell.c'\" \(837 characters\)
 sed "s/^X//" >'shell.c' <<'END_OF_FILE'
 X/*
 X**  Stand-alone driver for shell.
@@ -1842,7 +1864,7 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: shell.c,v 2.0 88/05/27 13:28:06 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/shell.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -1877,7 +1899,7 @@ X    /* That's it. */
 X    exit(0);
 X}
 END_OF_FILE
-if test 808 -ne `wc -c <'shell.c'`; then
+if test 837 -ne `wc -c <'shell.c'`; then
     echo shar: \"'shell.c'\" unpacked with wrong size!
 fi
 # end of 'shell.c'

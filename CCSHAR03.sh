@@ -6,12 +6,12 @@
 # will see the following message at the end:
 #		"End of archive 3 (of 3)."
 # Contents:  cshar.c makekit.c parser.c
-# Wrapped by yaya@server.chm.bnl.gov on Sun Sep  3 19:20:14 1995
+# Wrapped by yaya@blondie on Wed Dec 21 00:58:24 2016
 PATH=/bin:/usr/bin:/usr/ucb ; export PATH
 if test -f 'cshar.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'cshar.c'\"
 else
-echo shar: Extracting \"'cshar.c'\" \(8685 characters\)
+echo shar: Extracting \"'cshar.c'\" \(8668 characters\)
 sed "s/^X//" >'cshar.c' <<'END_OF_FILE'
 X/*
 X**  CSHAR
@@ -20,7 +20,7 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: /user_data/systems/yaya/cif/shar/xcshar/cshar.c,v 1.4 1995/09/03 12:29:48 yaya Exp yaya $";
+X	"$Header: /Users/yaya/ccshar/RCS/cshar.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X/*
@@ -363,7 +363,7 @@ X
 X    exit(0);
 X}
 END_OF_FILE
-if test 8685 -ne `wc -c <'cshar.c'`; then
+if test 8668 -ne `wc -c <'cshar.c'`; then
     echo shar: \"'cshar.c'\" unpacked with wrong size!
 fi
 # end of 'cshar.c'
@@ -371,7 +371,7 @@ fi
 if test -f 'makekit.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'makekit.c'\"
 else
-echo shar: Extracting \"'makekit.c'\" \(10825 characters\)
+echo shar: Extracting \"'makekit.c'\" \(10861 characters\)
 sed "s/^X//" >'makekit.c' <<'END_OF_FILE'
 X/*
 X**  MAKEKIT
@@ -380,7 +380,7 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: /user_data/systems/yaya/cif/shar/xcshar/makekit.c,v 1.1 1995/09/02 23:16:16 yaya Exp yaya $";
+X	"$Header: /Users/yaya/ccshar/RCS/makekit.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
 X
 X
@@ -423,9 +423,9 @@ Xchar	*InName;			/* File with list to pack	*/
 Xchar	*OutName;			/* Where our output goes	*/
 Xchar	*SharName = "Part";		/* Prefix for name of each shar	*/
 Xchar	*Trailer;			/* Text for shar to pack in	*/
-Xchar	*TEMP;				/* Temporary manifest file	*/
+Xstatic char	TEMP[22];		/* Temporary manifest file	*/
 X#ifdef	MSDOS
-Xchar	*FLST;				/* File with list for shar	*/
+Xstatic char FLST[22];				/* File with list for shar	*/
 X#endif	/* MSDOS */
 Xint	 ArkCount = 20;			/* Max number of archives	*/
 Xint	 ExcludeIt;			/* Leave out the output file?	*/
@@ -591,7 +591,8 @@ X    ac -= optind;
 X    av += optind;
 X
 X    /* Write the file list to a temp file. */
-X    TEMP = mktemp("/tmp/maniXXXXXX");
+X	strcpy(TEMP,"/tmp/maniXXXXXX");
+X    mkstemp(TEMP);
 X    F = fopen(TEMP, "w");
 X    SetSigs(TRUE, Catch);
 X    if (av[0])
@@ -788,7 +789,9 @@ X	av[i++] = CurArkNum;
 X    }
 X#ifdef	MSDOS
 X    av[i++] = "-i";
-X    av[i++] = FLST = mktemp("/tmp/manlXXXXXX");
+X	strcpy(FLST,"/tmp/manlXXXXXX");
+X	mkstemp(FLST);
+X    av[i++] = FLST;
 X#endif	/* MSDOS */
 X
 X    av[i++] = "-o";
@@ -826,7 +829,7 @@ X    /* That's all she wrote. */
 X    exit(0);
 X}
 END_OF_FILE
-if test 10825 -ne `wc -c <'makekit.c'`; then
+if test 10861 -ne `wc -c <'makekit.c'`; then
     echo shar: \"'makekit.c'\" unpacked with wrong size!
 fi
 # end of 'makekit.c'
@@ -834,7 +837,7 @@ fi
 if test -f 'parser.c' -a "${1}" != "-c" ; then 
   echo shar: Will not clobber existing file \"'parser.c'\"
 else
-echo shar: Extracting \"'parser.c'\" \(24180 characters\)
+echo shar: Extracting \"'parser.c'\" \(24235 characters\)
 sed "s/^X//" >'parser.c' <<'END_OF_FILE'
 X/*
 X**  An interpreter that can unpack many /bin/sh shell archives.
@@ -849,8 +852,11 @@ X*/
 X#include "shar.h"
 X#ifdef	RCSID
 Xstatic char RCS[] =
-X	"$Header: parser.c,v 2.1 88/06/03 11:39:11 rsalz Exp $";
+X	"$Header: /Users/yaya/ccshar/RCS/parser.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 X#endif	/* RCSID */
+X
+Xstatic
+XDoUntil(char * Terminator, int NewVal);
 X
 X
 X/*
@@ -898,11 +904,11 @@ X**  Global variables.
 X*/
 X
 XFILE		*Input;			/* Current input stream		*/
-Xchar		*File;			/* Input filename		*/
+Xchar *		File;			/* Input filename		*/
 Xint		 Interactive;		/* isatty(fileno(stdin))?	*/
 X#ifdef	MSDOS
 Xjmp_buf		 jEnv;			/* Pop out of main loop		*/
-X#endif	MSDOS
+X#endif	/* MSDOS */
 X
 Xstatic VAR	 VarList[MAX_VARS];	/* Our list of variables	*/
 Xstatic char	 Text[BUFSIZ];		/* Current text line		*/
@@ -1897,9 +1903,7 @@ X/*
 X**  Do until we reach a specific terminator.
 X*/
 Xstatic
-XDoUntil(Terminator, NewVal)
-X    char	*Terminator;
-X    int		 NewVal;
+XDoUntil(char * Terminator, int NewVal)
 X{
 X    char	*av[MAX_WORDS];
 X    int		 OldVal;
@@ -1914,7 +1918,7 @@ X
 X    Running = OldVal;
 X}
 END_OF_FILE
-if test 24180 -ne `wc -c <'parser.c'`; then
+if test 24235 -ne `wc -c <'parser.c'`; then
     echo shar: \"'parser.c'\" unpacked with wrong size!
 fi
 # end of 'parser.c'

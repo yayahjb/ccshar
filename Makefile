@@ -5,7 +5,7 @@
 
 ## Grrrr...
 SHELL	= /bin/sh
-CC = cc
+CC = gcc
 
 ##  Edit appropriately, such as -g if you don't trust me...
 #  Flags to build for AIX with cshar version making minimal use of "X"

@@ -27,8 +27,7 @@ FILE	*DEVTTY;			/* The tty, if in filter mode	*/
 **  Signal handler.  Clean up and die.
 */
 static sigret_t
-Catch(s)
-    int		 s;
+Catch(int s)
 {
     int		 e;
 
@@ -46,8 +45,7 @@ Catch(s)
 **  Given a filename, apply heuristics to see if we want it.
 */
 static int
-Wanted(Name)
-    REGISTER char	*Name;
+Wanted(char *Name)
 {
     REGISTER FILE	*F;
     REGISTER char	*s;
@@ -162,9 +160,7 @@ Wanted(Name)
 **  Could be made more general, but why bother?
 */
 static void
-Process(p, level)
-    REGISTER char	 *p;
-    REGISTER int	  level;
+Process(char *p, int level)
 {
     REGISTER char	 *q;
     DIR			 *Dp;
@@ -207,9 +203,7 @@ Process(p, level)
 }
 
 
-main(ac, av)
-    REGISTER int	 ac;
-    REGISTER char	*av[];
+main(int ac, char **av)
 {
     REGISTER char	*p;
     REGISTER int	 i;
@@ -275,7 +269,7 @@ main(ac, av)
 	    Process(*av, 0);
     else
 	while (fgets(buff, sizeof buff, stdin)) {
-	    if (p = IDX(buff, '\n'))
+	    if ((p = IDX(buff, '\n')))
 		*p = '\0';
 	    else
 		Fprintf(stderr, "Warning, line too long:\n\t%s\n", buff);

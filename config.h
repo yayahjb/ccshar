@@ -37,7 +37,7 @@ typedef int		*align_t;	/* Worst-case alignment, for lint */
 /*efine void		int		/* If you don't have void	*/
 /*efine SYS_WAIT			/* Have <sys/wait.h> and vfork?	*/
 /*efine USE_SYSTEM			/* Use system(3), not exec(2)?	*/
-/*define USE_SYSERRLIST			/* Have sys_errlist[], sys_nerr? */
+/*efine USE_SYSERRLIST			/* Have sys_errlist[], sys_nerr? */
 #define USE_GETPWUID			/* Use getpwuid(3)?		*/
 #define DEF_SAVEIT	1		/* Save headers by default?	*/
 /*efine FMT02d				/* Need "%02.2d", not "%2.2d"?	*/
@@ -48,8 +48,10 @@ typedef int		*align_t;	/* Worst-case alignment, for lint */
 /*efine PTR_SPRINTF			/* Need extern char *sprinf()?	*/
 /*efine ANSI_HDRS			/* Use <stdlib.h>, etc.?	*/
 #define REGISTER	register	/* Do you trust your compiler?	*/
-
-
+#define HAVE_UNISTD	1		/* Do you have unistd.h         */
+#define HAVE_STRING	1		/* Do you have string.h         */ 
+#define HAVE_STDLIB	1		/* Do you have stdlib.h         */
+#define HAVE_ERRNO	1		/* Do you have errno.h          */
 /*
 **  There are several ways to get current machine name.  Enable just one
 **  of one of the following lines.

@@ -14,6 +14,9 @@ static char RCS[] =
 	"$Header: /Users/yaya/ccshar/RCS/parser.c,v 1.1 2005/08/03 02:31:07 root Exp root $";
 #endif	/* RCSID */
 
+static
+DoUntil(char * Terminator, int NewVal);
+
 
 /*
 **  Manifest constants, handy shorthands.
@@ -64,7 +67,7 @@ char *		File;			/* Input filename		*/
 int		 Interactive;		/* isatty(fileno(stdin))?	*/
 #ifdef	MSDOS
 jmp_buf		 jEnv;			/* Pop out of main loop		*/
-#endif	MSDOS
+#endif	/* MSDOS */
 
 static VAR	 VarList[MAX_VARS];	/* Our list of variables	*/
 static char	 Text[BUFSIZ];		/* Current text line		*/
@@ -1059,9 +1062,7 @@ Exec(av)
 **  Do until we reach a specific terminator.
 */
 static
-DoUntil(Terminator, NewVal)
-    char	*Terminator;
-    int		 NewVal;
+DoUntil(char * Terminator, int NewVal)
 {
     char	*av[MAX_WORDS];
     int		 OldVal;
